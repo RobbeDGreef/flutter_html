@@ -69,7 +69,7 @@ class HtmlParser extends StatelessWidget {
     // scaling is used, but relies on https://github.com/flutter/flutter/pull/59711
     // to wrap everything when larger accessibility fonts are used.
     return StyledText(
-      textSpan: parsedTree, 
+      textSpan: parsedTree,
       style: cleanedTree.style,
       textScaleFactor: MediaQuery.of(context).textScaleFactor,
     );
@@ -98,8 +98,7 @@ class HtmlParser extends StatelessWidget {
     );
 
     html.nodes.forEach((node) {
-      tree.children
-          .add(_recursiveLexer(node, customRenderTags, blacklistedElements));
+      tree.children.add(_recursiveLexer(node, customRenderTags, blacklistedElements));
     });
 
     return tree;
@@ -117,8 +116,7 @@ class HtmlParser extends StatelessWidget {
     List<StyledElement> children = List<StyledElement>();
 
     node.nodes.forEach((childNode) {
-      children.add(
-          _recursiveLexer(childNode, customRenderTags, blacklistedElements));
+      children.add(_recursiveLexer(childNode, customRenderTags, blacklistedElements));
     });
 
     //TODO(Sub6Resources): There's probably a more efficient way to look this up.
@@ -235,10 +233,7 @@ class HtmlParser extends StatelessWidget {
               newContext: newContext,
               style: tree.style,
               shrinkWrap: context.parser.shrinkWrap,
-              children: tree.children
-                      ?.map((tree) => parseTree(newContext, tree))
-                      ?.toList() ??
-                  [],
+              children: tree.children?.map((tree) => parseTree(newContext, tree))?.toList() ?? [],
             ),
             tree.attributes,
             tree.element,
@@ -254,10 +249,7 @@ class HtmlParser extends StatelessWidget {
           newContext: newContext,
           style: tree.style,
           shrinkWrap: context.parser.shrinkWrap,
-          children: tree.children
-                  ?.map((tree) => parseTree(newContext, tree))
-                  ?.toList() ??
-              [],
+          children: tree.children?.map((tree) => parseTree(newContext, tree))?.toList() ?? [],
         ),
       );
     } else if (tree.style?.display == Display.LIST_ITEM) {
@@ -268,27 +260,24 @@ class HtmlParser extends StatelessWidget {
           shrinkWrap: context.parser.shrinkWrap,
           child: Stack(
             children: [
-              if (tree.style?.listStylePosition == ListStylePosition.OUTSIDE || tree.style?.listStylePosition == null)
+              if (tree.style?.listStylePosition == ListStylePosition.OUTSIDE ||
+                  tree.style?.listStylePosition == null)
                 PositionedDirectional(
                   width: 30, //TODO derive this from list padding.
                   start: 0,
                   child: Text('${newContext.style.markerContent}\t',
-                      textAlign: TextAlign.right,
-                      style: newContext.style.generateTextStyle()),
+                      textAlign: TextAlign.right, style: newContext.style.generateTextStyle()),
                 ),
               Padding(
-                padding: EdgeInsetsDirectional.only(
-                    start: 30), //TODO derive this from list padding.
+                padding:
+                    EdgeInsetsDirectional.only(start: 30), //TODO derive this from list padding.
                 child: StyledText(
                   textSpan: TextSpan(
-                    text: (tree.style?.listStylePosition ==
-                            ListStylePosition.INSIDE)
+                    text: (tree.style?.listStylePosition == ListStylePosition.INSIDE)
                         ? '${newContext.style.markerContent}\t'
                         : null,
-                    children: tree.children
-                            ?.map((tree) => parseTree(newContext, tree))
-                            ?.toList() ??
-                        [],
+                    children:
+                        tree.children?.map((tree) => parseTree(newContext, tree))?.toList() ?? [],
                     style: newContext.style.generateTextStyle(),
                   ),
                   style: newContext.style,
@@ -312,8 +301,8 @@ class HtmlParser extends StatelessWidget {
       return WidgetSpan(
         child: RawGestureDetector(
           gestures: {
-            MultipleTapGestureRecognizer: GestureRecognizerFactoryWithHandlers<
-                MultipleTapGestureRecognizer>(
+            MultipleTapGestureRecognizer:
+                GestureRecognizerFactoryWithHandlers<MultipleTapGestureRecognizer>(
               () => MultipleTapGestureRecognizer(),
               (instance) {
                 instance..onTap = () => onLinkTap?.call(tree.href);
@@ -323,10 +312,7 @@ class HtmlParser extends StatelessWidget {
           child: StyledText(
             textSpan: TextSpan(
               style: newContext.style.generateTextStyle(),
-              children: tree.children
-                      .map((tree) => parseTree(newContext, tree))
-                      .toList() ??
-                  [],
+              children: tree.children.map((tree) => parseTree(newContext, tree)).toList() ?? [],
             ),
             style: newContext.style,
           ),
@@ -356,10 +342,7 @@ class HtmlParser extends StatelessWidget {
           child: StyledText(
             textSpan: TextSpan(
               style: newContext.style.generateTextStyle(),
-              children: tree.children
-                      .map((tree) => parseTree(newContext, tree))
-                      .toList() ??
-                  [],
+              children: tree.children.map((tree) => parseTree(newContext, tree)).toList() ?? [],
             ),
             style: newContext.style,
           ),
@@ -369,8 +352,7 @@ class HtmlParser extends StatelessWidget {
       ///[tree] is an inline element.
       return TextSpan(
         style: newContext.style.generateTextStyle(),
-        children:
-            tree.children.map((tree) => parseTree(newContext, tree)).toList(),
+        children: tree.children.map((tree) => parseTree(newContext, tree)).toList(),
       );
     }
   }
@@ -488,12 +470,10 @@ class HtmlParser extends StatelessWidget {
   /// properties.
   static StyledElement _processBeforesAndAfters(StyledElement tree) {
     if (tree.style?.before != null) {
-      tree.children?.insert(
-          0, TextContentElement(text: tree.style.before, style: tree.style));
+      tree.children?.insert(0, TextContentElement(text: tree.style.before, style: tree.style));
     }
     if (tree.style?.after != null) {
-      tree.children
-          ?.add(TextContentElement(text: tree.style.after, style: tree.style));
+      tree.children?.add(TextContentElement(text: tree.style.after, style: tree.style));
     } else {
       tree.children?.forEach(_processBeforesAndAfters);
     }
@@ -546,8 +526,7 @@ class HtmlParser extends StatelessWidget {
       if (tree.children.first.style.margin == null) {
         tree.children.first.style.margin = EdgeInsets.zero;
       } else {
-        tree.children.first.style.margin =
-            tree.children.first.style.margin.copyWith(top: 0);
+        tree.children.first.style.margin = tree.children.first.style.margin.copyWith(top: 0);
       }
     }
 
@@ -562,38 +541,33 @@ class HtmlParser extends StatelessWidget {
       if (tree.style.margin == null) {
         tree.style.margin = EdgeInsets.only(bottom: newOuterMarginBottom);
       } else {
-        tree.style.margin =
-            tree.style.margin.copyWith(bottom: newOuterMarginBottom);
+        tree.style.margin = tree.style.margin.copyWith(bottom: newOuterMarginBottom);
       }
 
       // And remove the child's margin
       if (tree.children.last.style.margin == null) {
         tree.children.last.style.margin = EdgeInsets.zero;
       } else {
-        tree.children.last.style.margin =
-            tree.children.last.style.margin.copyWith(bottom: 0);
+        tree.children.last.style.margin = tree.children.last.style.margin.copyWith(bottom: 0);
       }
     }
 
     // Handle case (2) from above.
     if (tree.children.length > 1) {
       for (int i = 1; i < tree.children.length; i++) {
-        final previousSiblingBottom =
-            tree.children[i - 1].style.margin?.bottom ?? 0;
+        final previousSiblingBottom = tree.children[i - 1].style.margin?.bottom ?? 0;
         final thisTop = tree.children[i].style.margin?.top ?? 0;
         final newInternalMargin = max(previousSiblingBottom, thisTop) / 2;
 
         if (tree.children[i - 1].style.margin == null) {
-          tree.children[i - 1].style.margin =
-              EdgeInsets.only(bottom: newInternalMargin);
+          tree.children[i - 1].style.margin = EdgeInsets.only(bottom: newInternalMargin);
         } else {
-          tree.children[i - 1].style.margin = tree.children[i - 1].style.margin
-              .copyWith(bottom: newInternalMargin);
+          tree.children[i - 1].style.margin =
+              tree.children[i - 1].style.margin.copyWith(bottom: newInternalMargin);
         }
 
         if (tree.children[i].style.margin == null) {
-          tree.children[i].style.margin =
-              EdgeInsets.only(top: newInternalMargin);
+          tree.children[i].style.margin = EdgeInsets.only(top: newInternalMargin);
         } else {
           tree.children[i].style.margin =
               tree.children[i].style.margin.copyWith(top: newInternalMargin);
@@ -640,12 +614,11 @@ class HtmlParser extends StatelessWidget {
   /// [_processFontSize] changes percent-based font sizes (negative numbers in this implementation)
   /// to pixel-based font sizes.
   static StyledElement _processFontSize(StyledElement tree) {
-    double parentFontSize = tree.style?.fontSize?.size ?? FontSize.medium.size;
+    double parentFontSize = tree.style?.fontSize?.size ?? FontSize(18).size;
 
     tree.children?.forEach((child) {
       if ((child.style.fontSize?.size ?? parentFontSize) < 0) {
-        child.style.fontSize =
-            FontSize(parentFontSize * -child.style.fontSize.size);
+        child.style.fontSize = FontSize(parentFontSize * -child.style.fontSize.size);
       }
 
       _processFontSize(child);
@@ -727,10 +700,9 @@ class StyledText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width:
-          style.display == Display.BLOCK || style.display == Display.LIST_ITEM
-              ? double.infinity
-              : null,
+      width: style.display == Display.BLOCK || style.display == Display.LIST_ITEM
+          ? double.infinity
+          : null,
       child: Text.rich(
         textSpan,
         style: style.generateTextStyle(),
