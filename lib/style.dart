@@ -45,7 +45,7 @@ class Style {
   ///
   /// Inherited: yes,
   /// Default: FontSize.medium
-  FontSize fontSize;
+  FontSize fontSize = FontSize(18);
 
   /// CSS attribute "`font-style`"
   ///
@@ -208,8 +208,7 @@ class Style {
     this.alignment,
     this.markerContent,
   }) {
-    if (this.alignment == null &&
-        (display == Display.BLOCK || display == Display.LIST_ITEM)) {
+    if (this.alignment == null && (display == Display.BLOCK || display == Display.LIST_ITEM)) {
       this.alignment = Alignment.centerLeft;
     }
   }
@@ -358,8 +357,7 @@ class Style {
       textDecoration: textDecoration ?? this.textDecoration,
       textDecorationColor: textDecorationColor ?? this.textDecorationColor,
       textDecorationStyle: textDecorationStyle ?? this.textDecorationStyle,
-      textDecorationThickness:
-          textDecorationThickness ?? this.textDecorationThickness,
+      textDecorationThickness: textDecorationThickness ?? this.textDecorationThickness,
       textShadow: textShadow ?? this.textShadow,
       verticalAlign: verticalAlign ?? this.verticalAlign,
       whiteSpace: whiteSpace ?? this.whiteSpace,
